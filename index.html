@@ -1,117 +1,905 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZoeWar Scripts 🎃</title>
 
-  <title>ZoeWar Scripts</title>
+<style>
+* {
+    box-sizing: border-box;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding-bottom: 115px;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #030303;
+    overflow-x: hidden;
+}
+
+/* FUNDO */
+
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255,80,0,.14), transparent 28%),
+        radial-gradient(circle at 85% 65%, rgba(255,120,0,.10), transparent 30%),
+        #030303;
+}
+
+.mist {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: .18;
+    background: #ff6500;
+    animation: mistMove 14s ease-in-out infinite alternate;
+}
+
+.mist:nth-child(1) {
+    top: -180px;
+    left: -150px;
+}
+
+.mist:nth-child(2) {
+    right: -170px;
+    top: 35%;
+    animation-delay: -5s;
+}
+
+.mist:nth-child(3) {
+    bottom: -250px;
+    left: 35%;
+    animation-delay: -9s;
+}
+
+@keyframes mistMove {
+    from {
+        transform: translate(0,0) scale(1);
     }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #0b0b0f;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+    to {
+        transform: translate(100px,-70px) scale(1.25);
     }
+}
+
+/* PARTÍCULAS */
+
+.particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+}
+
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #ff7200;
+    box-shadow: 0 0 8px #ff6500;
+    opacity: 0;
+    animation: rise linear infinite;
+}
+
+@keyframes rise {
+    0% {
+        transform: translateY(105vh) scale(.5);
+        opacity: 0;
+    }
+    15% {
+        opacity: .8;
+    }
+    85% {
+        opacity: .8;
+    }
+    100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* CONTAINER */
+
+.container {
+    width: min(94%, 720px);
+    margin: auto;
+    padding-top: 38px;
+}
+
+/* CABEÇALHO */
+
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: heroIn .9s ease forwards;
+}
+
+.badge {
+    display: inline-block;
+    padding: 9px 17px;
+    border: 1px solid rgba(255,100,0,.55);
+    border-radius: 999px;
+    color: #ff9a52;
+    background: rgba(255,70,0,.08);
+    box-shadow:
+        0 0 20px rgba(255,80,0,.15),
+        inset 0 0 20px rgba(255,80,0,.04);
+    backdrop-filter: blur(15px);
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+h1 {
+    margin: 22px 0 8px;
+    font-size: clamp(42px, 12vw, 70px);
+    letter-spacing: -3px;
+    background: linear-gradient(
+        90deg,
+        #ff5a00,
+        #ff9a3d,
+        #ff5a00
+    );
+    background-size: 200%;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: orangeFlow 4s linear infinite;
+}
+
+@keyframes orangeFlow {
+    to {
+        background-position: 200%;
+    }
+}
+
+.subtitle {
+    color: #777;
+    font-size: 13px;
+}
+
+/* TÍTULO */
+
+.section-title {
+    margin: 0 5px 17px;
+    color: #ff8a3d;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+/* CARDS */
+
+.script-card {
+    position: relative;
+    margin: 18px 0;
+    padding: 21px;
+    border-radius: 23px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30,20,15,.75),
+            rgba(10,10,10,.72)
+        );
+
+    border: 1px solid rgba(255,100,0,.24);
+
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.5),
+        inset 0 1px rgba(255,150,70,.08);
+
+    opacity: 0;
+    transform: translateY(30px);
+
+    animation: cardIn .75s ease forwards;
+
+    transition:
+        transform .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
+}
+
+.script-card:nth-of-type(2) {
+    animation-delay: .08s;
+}
+
+.script-card:nth-of-type(3) {
+    animation-delay: .16s;
+}
+
+.script-card:nth-of-type(4) {
+    animation-delay: .24s;
+}
+
+.script-card:nth-of-type(5) {
+    animation-delay: .32s;
+}
+
+.script-card:nth-of-type(6) {
+    animation-delay: .40s;
+}
+
+@keyframes cardIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.script-card::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    right: -100px;
+    top: -100px;
+    border-radius: 50%;
+    background: #ff6200;
+    filter: blur(80px);
+    opacity: .10;
+    pointer-events: none;
+}
+
+.script-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255,110,0,.52);
+    box-shadow:
+        0 20px 55px rgba(255,70,0,.12),
+        inset 0 1px rgba(255,150,70,.15);
+}
+
+/* CABEÇALHO DO CARD */
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.icon {
+    width: 47px;
+    height: 47px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+
+    background: rgba(255,80,0,.10);
+    border: 1px solid rgba(255,100,0,.25);
+
+    box-shadow:
+        inset 0 0 18px rgba(255,70,0,.08),
+        0 0 18px rgba(255,70,0,.08);
+
+    font-size: 21px;
+}
+
+.card-title {
+    min-width: 0;
+    flex: 1;
+}
+
+.card-title h2 {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.25;
+}
+
+.card-title p {
+    margin: 5px 0 0;
+    color: #777;
+    font-size: 11px;
+}
+
+.tag {
+    padding: 6px 9px;
+    border-radius: 999px;
+    color: #ff913f;
+    background: rgba(255,80,0,.08);
+    border: 1px solid rgba(255,100,0,.20);
+    font-size: 9px;
+}
+
+/* CÓDIGO */
+
+.code-box {
+    position: relative;
+    margin-top: 18px;
+    min-height: 65px;
+    padding: 17px 80px 17px 15px;
+
+    border-radius: 15px;
+
+    background: rgba(0,0,0,.65);
+    border: 1px solid rgba(255,255,255,.07);
+
+    box-shadow:
+        inset 0 0 20px rgba(255,80,0,.025);
+}
+
+code {
+    display: block;
+    color: #ffad70;
+    font-family: Consolas, monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    word-break: break-all;
+}
+
+/* BOTÃO COPY */
+
+.copy {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    padding: 10px 12px;
+
+    border: 1px solid rgba(255,170,100,.25);
+    border-radius: 11px;
+
+    background: linear-gradient(
+        135deg,
+        #ff5100,
+        #ff8500
+    );
+
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 18px rgba(255,80,0,.22);
+
+    transition:
+        transform .15s ease,
+        box-shadow .2s ease;
+}
+
+.copy:hover {
+    box-shadow:
+        0 0 28px rgba(255,90,0,.40);
+}
+
+.copy:active {
+    transform: scale(.88);
+}
+
+.copy.copied {
+    background: #d94d00;
+}
+
+/* PLAYER */
+
+.music-player {
+    position: fixed;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+
+    width: min(94%, 700px);
+
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 11px 13px;
+
+    background: rgba(12,10,9,.86);
+
+    border: 1px solid rgba(255,100,0,.30);
+    border-radius: 19px;
+
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.7),
+        0 0 25px rgba(255,70,0,.10);
+
+    z-index: 20;
+}
+
+.album {
+    width: 53px;
+    height: 53px;
+    flex-shrink: 0;
+
+    border-radius: 13px;
+
+    object-fit: cover;
+
+    border: 1px solid rgba(255,100,0,.25);
+
+    box-shadow:
+        0 0 20px rgba(255,70,0,.20);
+}
+
+.music-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.music-title {
+    font-size: 13px;
+    font-weight: bold;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.music-artist {
+    margin-top: 4px;
+    color: #888;
+    font-size: 10px;
+}
+
+.music-button {
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+
+    border: 1px solid rgba(255,120,40,.25);
+    border-radius: 50%;
+
+    background: rgba(255,75,0,.13);
+
+    color: #ff8738;
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.music-button:active {
+    transform: scale(.88);
+}
+
+/* MOBILE */
+
+@media(max-width:500px) {
 
     .container {
-      width: 100%;
-      max-width: 700px;
-      background: #121218;
-      border: 1px solid #292933;
-      border-radius: 18px;
-      padding: 25px;
-      box-shadow: 0 0 30px rgba(0,0,0,.5);
+        padding-top: 28px;
     }
 
-    h1 {
-      margin-top: 0;
-      text-align: center;
+    .script-card {
+        padding: 17px;
+        border-radius: 20px;
     }
 
-    .description {
-      text-align: center;
-      color: #999;
-      margin-bottom: 25px;
+    .card-title h2 {
+        font-size: 15px;
     }
 
-    .code-box {
-      background: #08080b;
-      border: 1px solid #292933;
-      border-radius: 12px;
-      padding: 15px;
+    .tag {
+        display: none;
     }
 
-    code {
-      display: block;
-      word-break: break-all;
-      color: #ddd;
-      font-family: monospace;
-      font-size: 14px;
-      line-height: 1.6;
+    .music-player {
+        bottom: 8px;
+    }
+}
+
+@keyframes heroIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
     }
 
-    button {
-      width: 100%;
-      margin-top: 15px;
-      padding: 13px;
-      border: 0;
-      border-radius: 10px;
-      background: white;
-      color: black;
-      font-weight: bold;
-      font-size: 15px;
-      cursor: pointer;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-
-    button:active {
-      transform: scale(.98);
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
-    <h1>ZoeWar Scripts</h1>
+<div class="background">
+    <div class="mist"></div>
+    <div class="mist"></div>
+    <div class="mist"></div>
+</div>
 
-    <div class="description">
-      Script Hub
+<div class="particles" id="particles"></div>
+
+<main class="container">
+
+    <section class="hero">
+
+        <div class="badge">
+            🎃 HALLOWEEN EDITION 🎃
+        </div>
+
+        <h1>ZoeWar</h1>
+
+        <div class="subtitle">
+            Scripts • Tools • Halloween
+        </div>
+
+    </section>
+
+    <div class="section-title">
+        ✦ MEUS SCRIPTS
     </div>
 
-    <div class="code-box">
-      <code id="script">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/System-V3.3/refs/heads/main/System-V3.3"))() 
-      </code>
 
-      <button onclick="copyScript()">COPY</button>
+    <!-- 1 -->
+
+    <div class="script-card">
+
+        <div class="card-header">
+
+            <div class="icon">🎃</div>
+
+            <div class="card-title">
+                <h2>meu sistema grátis</h2>
+                <p>meu sistema principal gratuito</p>
+            </div>
+
+            <div class="tag">FREE</div>
+
+        </div>
+
+        <div class="code-box">
+
+            <code id="script1">loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/System-V3.3/refs/heads/main/System-V3.3"))() </code>
+
+            <button class="copy"
+                onclick="copyScript('script1', this)">
+                COPY
+            </button>
+
+        </div>
+
     </div>
-  </div>
 
-  <script>
-    function copyScript() {
-      const text = document.getElementById("script").innerText.trim();
 
-      navigator.clipboard.writeText(text).then(() => {
-        const button = document.querySelector("button");
+    <!-- 2 -->
 
-        button.innerText = "COPIED!";
+    <div class="script-card">
 
-        setTimeout(() => {
-          button.innerText = "COPY";
-        }, 1500);
-      });
+        <div class="card-header">
+
+            <div class="icon">🔪</div>
+
+            <div class="card-title">
+                <h2>apenas remove a animação da arma</h2>
+                <p>ferramenta visual</p>
+            </div>
+
+            <div class="tag">TOOL</div>
+
+        </div>
+
+        <div class="code-box">
+
+            <code id="script2">loadstring(game:HttpGet("https://pastefy.app/w1eYk3eU/raw"))()</code>
+
+            <button class="copy"
+                onclick="copyScript('script2', this)">
+                COPY
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- 3 -->
+
+    <div class="script-card">
+
+        <div class="card-header">
+
+            <div class="icon">🎧</div>
+
+            <div class="card-title">
+                <h2>meu abafador/equalizador</h2>
+                <p>controle de áudio</p>
+            </div>
+
+            <div class="tag">AUDIO</div>
+
+        </div>
+
+        <div class="code-box">
+
+            <code id="script3">loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/Abafador-By-Zoewar/refs/heads/main/Equalizador-Zoewar"))()</code>
+
+            <button class="copy"
+                onclick="copyScript('script3', this)">
+                COPY
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- 4 -->
+
+    <div class="script-card">
+
+        <div class="card-header">
+
+            <div class="icon">🕸️</div>
+
+            <div class="card-title">
+                <h2>meu painel grátis</h2>
+                <p>painel de ferramentas</p>
+            </div>
+
+            <div class="tag">FREE</div>
+
+        </div>
+
+        <div class="code-box">
+
+            <code id="script4">loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/Painel-Cnp-ZoeWar/refs/heads/main/Painel-Scripts"))()</code>
+
+            <button class="copy"
+                onclick="copyScript('script4', this)">
+                COPY
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- 5 -->
+
+    <div class="script-card">
+
+        <div class="card-header">
+
+            <div class="icon">💀</div>
+
+            <div class="card-title">
+                <h2>emotes tool</h2>
+                <p>ferramenta de emotes</p>
+            </div>
+
+            <div class="tag">TOOL</div>
+
+        </div>
+
+        <div class="code-box">
+
+            <code id="script5">loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/Emote-Tool/refs/heads/main/Emotes%20Tool"))()</code>
+
+            <button class="copy"
+                onclick="copyScript('script5', this)">
+                COPY
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- PLAYER -->
+
+<div class="music-player">
+
+    <img
+        class="album"
+        src="capa.jpg"
+        alt="Capa da música">
+
+    <div class="music-info">
+
+        <div class="music-title">
+            Somebody's Watching Me
+        </div>
+
+        <div class="music-artist">
+            Rockwell
+        </div>
+
+    </div>
+
+    <button
+        class="music-button"
+        id="musicButton"
+        onclick="toggleMusic()">
+        ▶
+    </button>
+
+</div>
+
+
+<!--
+    Coloque no mesmo repositório:
+    
+    capa.jpg
+    music.mp3
+
+    O arquivo music.mp3 deve ser um áudio
+    que você tenha autorização para utilizar.
+-->
+
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+
+<script>
+
+/* PARTÍCULAS */
+
+const particles =
+    document.getElementById("particles");
+
+for (let i = 0; i < 45; i++) {
+
+    const particle =
+        document.createElement("div");
+
+    particle.className = "particle";
+
+    particle.style.left =
+        Math.random() * 100 + "%";
+
+    particle.style.animationDuration =
+        (6 + Math.random() * 10) + "s";
+
+    particle.style.animationDelay =
+        (-Math.random() * 12) + "s";
+
+    particle.style.width =
+        (1 + Math.random() * 3) + "px";
+
+    particle.style.height =
+        particle.style.width;
+
+    particles.appendChild(particle);
+}
+
+
+/* SOM DO COPY */
+
+function copySound() {
+
+    const AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+    if (!AudioContext) return;
+
+    const context =
+        new AudioContext();
+
+    const oscillator =
+        context.createOscillator();
+
+    const gain =
+        context.createGain();
+
+    oscillator.type = "sine";
+
+    oscillator.frequency.setValueAtTime(
+        720,
+        context.currentTime
+    );
+
+    oscillator.frequency.exponentialRampToValueAtTime(
+        980,
+        context.currentTime + 0.08
+    );
+
+    gain.gain.setValueAtTime(
+        0.08,
+        context.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        context.currentTime + 0.14
+    );
+
+    oscillator.connect(gain);
+    gain.connect(context.destination);
+
+    oscillator.start();
+
+    oscillator.stop(
+        context.currentTime + 0.14
+    );
+}
+
+
+/* COPY */
+
+function copyScript(id, button) {
+
+    const text =
+        document
+        .getElementById(id)
+        .innerText
+        .trim();
+
+    navigator.clipboard
+        .writeText(text)
+        .then(() => {
+
+            copySound();
+
+            button.innerText =
+                "COPIED ✓";
+
+            button.classList.add(
+                "copied"
+            );
+
+            setTimeout(() => {
+
+                button.innerText =
+                    "COPY";
+
+                button.classList.remove(
+                    "copied"
+                );
+
+            }, 1400);
+
+        });
+
+}
+
+
+/* PLAYER */
+
+const music =
+    document.getElementById("music");
+
+const musicButton =
+    document.getElementById("musicButton");
+
+function toggleMusic() {
+
+    if (music.paused) {
+
+        music.play();
+
+        musicButton.innerText =
+            "❚❚";
+
+    } else {
+
+        music.pause();
+
+        musicButton.innerText =
+            "▶";
+
     }
-  </script>
+
+}
+
+</script>
 
 </body>
 </html>
