@@ -7,395 +7,787 @@
 
 <style>
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+
+html{
+    scroll-behavior:smooth;
+}
 
 :root{
- --primary:#3b82f6;
- --secondary:#78baff;
- --accent:#b9ddff;
- --bg:#020817;
- --muted:#7890ad;
+    --primary:#3b82f6;
+    --secondary:#78baff;
+    --accent:#b9ddff;
+    --bg:#020817;
+    --card:#071426;
+    --muted:#7890ad;
 }
 
 body{
- margin:0;
- min-height:100vh;
- padding-bottom:120px;
- color:#fff;
- font-family:Arial,Helvetica,sans-serif;
- background:var(--bg);
- overflow-x:hidden;
- transition:background 1s ease,color 1s ease;
+    margin:0;
+    min-height:100vh;
+    padding-bottom:120px;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    overflow-x:hidden;
+    transition:
+        background 1s ease,
+        color 1s ease;
 }
 
+/* =========================
+   FUNDO
+========================= */
+
 .background{
- position:fixed;
- inset:0;
- z-index:-10;
- overflow:hidden;
- background:
- radial-gradient(circle at 15% 20%,rgba(30,110,255,.18),transparent 30%),
- radial-gradient(circle at 85% 70%,rgba(50,150,255,.12),transparent 30%),
- var(--bg);
- transition:background 1s ease;
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            color-mix(in srgb,var(--primary) 18%,transparent),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 70%,
+            color-mix(in srgb,var(--secondary) 12%,transparent),
+            transparent 30%
+        ),
+        var(--bg);
+
+    transition:background 1.2s ease;
 }
 
 .mist{
- position:absolute;
- width:430px;
- height:430px;
- border-radius:50%;
- filter:blur(110px);
- opacity:.16;
- background:var(--primary);
- animation:mist 14s ease-in-out infinite alternate;
+    position:absolute;
+    width:430px;
+    height:430px;
+    border-radius:50%;
+    filter:blur(110px);
+    opacity:.16;
+    background:var(--primary);
+    animation:mistMove 14s ease-in-out infinite alternate;
+    transition:background 1s ease;
 }
 
-.mist:nth-child(1){top:-190px;left:-150px}
-.mist:nth-child(2){right:-170px;top:35%;animation-delay:-5s}
-.mist:nth-child(3){bottom:-250px;left:35%;animation-delay:-9s}
-
-@keyframes mist{
- from{transform:translate(0,0) scale(1)}
- to{transform:translate(100px,-70px) scale(1.25)}
+.mist:nth-child(1){
+    top:-190px;
+    left:-150px;
 }
+
+.mist:nth-child(2){
+    right:-170px;
+    top:35%;
+    animation-delay:-5s;
+}
+
+.mist:nth-child(3){
+    bottom:-250px;
+    left:35%;
+    animation-delay:-9s;
+}
+
+@keyframes mistMove{
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(100px,-70px) scale(1.25);
+    }
+}
+
+/* =========================
+   EFEITOS
+========================= */
 
 #effects{
- position:fixed;
- inset:0;
- pointer-events:none;
- z-index:10;
- overflow:hidden;
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:10;
+    overflow:hidden;
 }
 
 .falling{
- position:absolute;
- top:-50px;
- animation:fall linear infinite;
- filter:drop-shadow(0 0 8px var(--primary));
+    position:absolute;
+    top:-60px;
+    animation:fall linear infinite;
+    user-select:none;
 }
 
 @keyframes fall{
- 0%{transform:translateY(-50px) rotate(0);opacity:0}
- 10%{opacity:1}
- 90%{opacity:1}
- 100%{transform:translateY(110vh) rotate(360deg);opacity:0}
+
+    0%{
+        transform:
+            translateY(-60px)
+            rotate(0deg);
+        opacity:0;
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    90%{
+        opacity:1;
+    }
+
+    100%{
+        transform:
+            translateY(110vh)
+            rotate(360deg);
+        opacity:0;
+    }
 }
 
-.firework{
- position:absolute;
- width:5px;
- height:5px;
- border-radius:50%;
- background:var(--accent);
- box-shadow:0 0 15px var(--accent);
-}
+/* =========================
+   FOGOS
+========================= */
 
 .spark{
- position:absolute;
- width:3px;
- height:18px;
- border-radius:50%;
- background:var(--accent);
- box-shadow:0 0 10px var(--accent);
- animation:spark .9s ease-out forwards;
+    position:absolute;
+    width:3px;
+    height:17px;
+    border-radius:50%;
+    background:var(--accent);
+    box-shadow:
+        0 0 8px var(--accent),
+        0 0 18px var(--primary);
+
+    animation:
+        fireworkSpark .9s ease-out forwards;
 }
 
-@keyframes spark{
- from{transform:translate(0,0) scale(1);opacity:1}
- to{transform:translate(var(--x),var(--y)) scale(.1);opacity:0}
+@keyframes fireworkSpark{
+
+    from{
+        transform:
+            translate(0,0)
+            scale(1);
+        opacity:1;
+    }
+
+    to{
+        transform:
+            translate(var(--x),var(--y))
+            scale(.05);
+        opacity:0;
+    }
 }
+
+/* =========================
+   CONTAINER
+========================= */
 
 .container{
- width:min(94%,720px);
- margin:auto;
- padding-top:38px;
+    width:min(94%,720px);
+    margin:auto;
+    padding-top:38px;
 }
 
+/* =========================
+   HERO
+========================= */
+
 .hero{
- text-align:center;
- margin-bottom:40px;
- animation:heroIn .9s ease forwards;
+    text-align:center;
+    margin-bottom:40px;
+    animation:heroIn .9s ease forwards;
 }
 
 .badge{
- display:inline-block;
- padding:9px 17px;
- border:1px solid color-mix(in srgb,var(--primary) 55%,transparent);
- border-radius:999px;
- color:var(--secondary);
- background:color-mix(in srgb,var(--primary) 9%,transparent);
- box-shadow:0 0 25px color-mix(in srgb,var(--primary) 15%,transparent);
- backdrop-filter:blur(15px);
- font-size:11px;
- letter-spacing:1.5px;
- transition:.8s;
+    display:inline-block;
+    padding:9px 17px;
+
+    border:1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 55%,
+            transparent
+        );
+
+    border-radius:999px;
+
+    color:var(--secondary);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 9%,
+            transparent
+        );
+
+    box-shadow:
+        0 0 25px
+        color-mix(
+            in srgb,
+            var(--primary) 15%,
+            transparent
+        );
+
+    backdrop-filter:blur(15px);
+
+    font-size:11px;
+    letter-spacing:1.5px;
+
+    transition:.8s;
 }
 
 h1{
- margin:22px 0 8px;
- font-size:clamp(48px,13vw,76px);
- letter-spacing:-4px;
- background:linear-gradient(
- 90deg,
- var(--primary),
- var(--accent),
- var(--secondary),
- var(--primary)
- );
- background-size:250%;
- -webkit-background-clip:text;
- color:transparent;
- animation:flow 5s linear infinite;
+    margin:22px 0 8px;
+
+    font-size:
+        clamp(
+            48px,
+            13vw,
+            76px
+        );
+
+    letter-spacing:-4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--accent),
+            var(--secondary),
+            var(--primary)
+        );
+
+    background-size:250%;
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    color:transparent;
+
+    animation:
+        titleFlow 5s linear infinite;
 }
 
-@keyframes flow{
- to{background-position:250%}
+@keyframes titleFlow{
+    to{
+        background-position:250%;
+    }
 }
 
 .subtitle{
- color:var(--muted);
- font-size:13px;
+    color:var(--muted);
+    font-size:13px;
+    transition:.7s;
 }
 
 .description{
- margin:12px auto 0;
- max-width:500px;
- color:#667d98;
- font-size:11px;
+    margin:12px auto 0;
+    max-width:500px;
+    color:#647b96;
+    font-size:11px;
 }
+
+/* =========================
+   SECTION
+========================= */
 
 .section-title{
- margin:0 5px 17px;
- color:var(--secondary);
- font-size:12px;
- letter-spacing:2px;
+    margin:0 5px 17px;
+    color:var(--secondary);
+    font-size:12px;
+    letter-spacing:2px;
 }
+
+/* =========================
+   CARDS
+========================= */
 
 .script-card{
- position:relative;
- margin:18px 0;
- padding:21px;
- border-radius:23px;
+    position:relative;
 
- background:
- linear-gradient(
- 145deg,
- color-mix(in srgb,var(--primary) 8%,#111),
- rgba(5,10,20,.78)
- );
+    margin:18px 0;
+    padding:21px;
 
- border:1px solid color-mix(in srgb,var(--primary) 25%,transparent);
+    border-radius:23px;
 
- backdrop-filter:blur(24px);
- -webkit-backdrop-filter:blur(24px);
+    background:
+        linear-gradient(
+            145deg,
+            color-mix(
+                in srgb,
+                var(--primary) 8%,
+                var(--card)
+            ),
+            rgba(5,10,20,.78)
+        );
 
- box-shadow:
- 0 15px 45px rgba(0,0,0,.5),
- inset 0 1px rgba(255,255,255,.08);
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 25%,
+            transparent
+        );
 
- opacity:0;
- transform:translateY(30px);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
 
- animation:cardIn .75s ease forwards;
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.5),
+        inset 0 1px rgba(255,255,255,.08);
 
- transition:.35s;
+    opacity:0;
+    transform:translateY(30px);
+
+    animation:
+        cardIn .75s ease forwards;
+
+    transition:
+        transform .35s ease,
+        border-color .7s ease,
+        box-shadow .7s ease,
+        background .7s ease;
 }
 
-.script-card:nth-of-type(2){animation-delay:.08s}
-.script-card:nth-of-type(3){animation-delay:.16s}
-.script-card:nth-of-type(4){animation-delay:.24s}
-.script-card:nth-of-type(5){animation-delay:.32s}
-.script-card:nth-of-type(6){animation-delay:.40s}
+.script-card:nth-of-type(2){
+    animation-delay:.08s;
+}
+
+.script-card:nth-of-type(3){
+    animation-delay:.16s;
+}
+
+.script-card:nth-of-type(4){
+    animation-delay:.24s;
+}
+
+.script-card:nth-of-type(5){
+    animation-delay:.32s;
+}
+
+.script-card:nth-of-type(6){
+    animation-delay:.40s;
+}
 
 @keyframes cardIn{
- to{
-  opacity:1;
-  transform:translateY(0);
- }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 .script-card::before{
- content:"";
- position:absolute;
- width:190px;
- height:190px;
- right:-100px;
- top:-100px;
- border-radius:50%;
- background:var(--primary);
- filter:blur(85px);
- opacity:.10;
- pointer-events:none;
+    content:"";
+
+    position:absolute;
+
+    width:190px;
+    height:190px;
+
+    right:-100px;
+    top:-100px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    filter:blur(85px);
+
+    opacity:.10;
+
+    pointer-events:none;
+
+    transition:background .8s ease;
 }
 
 .script-card:hover{
- transform:translateY(-6px);
- border-color:color-mix(in srgb,var(--primary) 55%,transparent);
- box-shadow:
- 0 22px 60px color-mix(in srgb,var(--primary) 12%,transparent),
- inset 0 1px rgba(255,255,255,.14);
+
+    transform:
+        translateY(-6px);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--primary) 55%,
+            transparent
+        );
+
+    box-shadow:
+        0 22px 60px
+        color-mix(
+            in srgb,
+            var(--primary) 12%,
+            transparent
+        ),
+        inset 0 1px rgba(255,255,255,.14);
 }
 
+/* =========================
+   CARD HEADER
+========================= */
+
 .card-header{
- display:flex;
- align-items:center;
- gap:13px;
+    display:flex;
+    align-items:center;
+    gap:13px;
 }
 
 .icon{
- width:47px;
- height:47px;
- flex-shrink:0;
- display:grid;
- place-items:center;
- border-radius:14px;
- background:color-mix(in srgb,var(--primary) 10%,transparent);
- border:1px solid color-mix(in srgb,var(--primary) 25%,transparent);
- box-shadow:0 0 18px color-mix(in srgb,var(--primary) 8%,transparent);
- font-size:21px;
- transition:.7s;
+    width:47px;
+    height:47px;
+
+    flex-shrink:0;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:14px;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 10%,
+            transparent
+        );
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 25%,
+            transparent
+        );
+
+    box-shadow:
+        0 0 18px
+        color-mix(
+            in srgb,
+            var(--primary) 8%,
+            transparent
+        );
+
+    font-size:21px;
+
+    transition:
+        background .8s ease,
+        border .8s ease;
 }
 
 .card-title{
- min-width:0;
- flex:1;
+    min-width:0;
+    flex:1;
 }
 
 .card-title h2{
- margin:0;
- font-size:17px;
- line-height:1.25;
+    margin:0;
+    font-size:17px;
+    line-height:1.25;
 }
 
 .card-title p{
- margin:5px 0 0;
- color:#7589a2;
- font-size:11px;
+    margin:5px 0 0;
+    color:#7589a2;
+    font-size:11px;
 }
 
 .tag{
- padding:6px 9px;
- border-radius:999px;
- color:var(--secondary);
- background:color-mix(in srgb,var(--primary) 8%,transparent);
- border:1px solid color-mix(in srgb,var(--primary) 20%,transparent);
- font-size:9px;
+    padding:6px 9px;
+
+    border-radius:999px;
+
+    color:var(--secondary);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 8%,
+            transparent
+        );
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 20%,
+            transparent
+        );
+
+    font-size:9px;
 }
 
+/* =========================
+   CODE
+========================= */
+
 .code-box{
- position:relative;
- margin-top:18px;
- min-height:65px;
- padding:17px 80px 17px 15px;
- border-radius:15px;
- background:rgba(0,4,12,.72);
- border:1px solid rgba(255,255,255,.07);
+    position:relative;
+
+    margin-top:18px;
+
+    min-height:65px;
+
+    padding:
+        17px
+        80px
+        17px
+        15px;
+
+    border-radius:15px;
+
+    background:rgba(0,4,12,.72);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    box-shadow:
+        inset 0 0 20px
+        color-mix(
+            in srgb,
+            var(--primary) 3%,
+            transparent
+        );
 }
 
 code{
- display:block;
- color:var(--secondary);
- font-family:Consolas,monospace;
- font-size:11px;
- line-height:1.6;
- word-break:break-all;
+    display:block;
+
+    color:var(--secondary);
+
+    font-family:Consolas,monospace;
+
+    font-size:11px;
+
+    line-height:1.6;
+
+    word-break:break-all;
 }
 
+/* =========================
+   COPY
+========================= */
+
 .copy{
- position:absolute;
- top:10px;
- right:10px;
- padding:10px 12px;
- border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);
- border-radius:11px;
- background:linear-gradient(135deg,var(--primary),var(--secondary));
- color:#fff;
- font-size:10px;
- font-weight:bold;
- cursor:pointer;
- box-shadow:0 0 18px color-mix(in srgb,var(--primary) 22%,transparent);
- transition:.2s;
+    position:absolute;
+
+    top:10px;
+    right:10px;
+
+    padding:10px 12px;
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--accent) 25%,
+            transparent
+        );
+
+    border-radius:11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    color:#fff;
+
+    font-size:10px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 0 18px
+        color-mix(
+            in srgb,
+            var(--primary) 22%,
+            transparent
+        );
+
+    transition:.2s;
 }
 
 .copy:hover{
- transform:translateY(-2px);
- box-shadow:0 0 30px color-mix(in srgb,var(--primary) 40%,transparent);
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 0 30px
+        color-mix(
+            in srgb,
+            var(--primary) 40%,
+            transparent
+        );
 }
 
-.copy:active{transform:scale(.88)}
-.copy.copied{background:#15945d}
+.copy:active{
+    transform:scale(.88);
+}
+
+.copy.copied{
+    background:#15945d;
+}
+
+/* =========================
+   PLAYER
+========================= */
 
 .music-player{
- position:fixed;
- left:50%;
- bottom:12px;
- transform:translateX(-50%);
- width:min(94%,700px);
- display:flex;
- align-items:center;
- gap:13px;
- padding:11px 13px;
- background:rgba(5,12,25,.88);
- border:1px solid color-mix(in srgb,var(--primary) 30%,transparent);
- border-radius:19px;
- backdrop-filter:blur(25px);
- box-shadow:0 15px 45px rgba(0,0,0,.7);
- z-index:20;
- transition:.8s;
+    position:fixed;
+
+    left:50%;
+    bottom:12px;
+
+    transform:translateX(-50%);
+
+    width:min(94%,700px);
+
+    display:flex;
+    align-items:center;
+
+    gap:13px;
+
+    padding:11px 13px;
+
+    background:rgba(5,12,25,.88);
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 30%,
+            transparent
+        );
+
+    border-radius:19px;
+
+    backdrop-filter:blur(25px);
+
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.7);
+
+    z-index:20;
+
+    transition:
+        border .8s ease,
+        background .8s ease;
 }
 
 .album{
- width:53px;
- height:53px;
- flex-shrink:0;
- border-radius:13px;
- object-fit:cover;
- border:1px solid color-mix(in srgb,var(--primary) 25%,transparent);
+    width:53px;
+    height:53px;
+
+    flex-shrink:0;
+
+    border-radius:13px;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 25%,
+            transparent
+        );
 }
 
 .music-info{
- min-width:0;
- flex:1;
+    min-width:0;
+    flex:1;
 }
 
 .music-title{
- font-size:13px;
- font-weight:bold;
- white-space:nowrap;
- overflow:hidden;
- text-overflow:ellipsis;
+    font-size:13px;
+    font-weight:bold;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 .music-artist{
- margin-top:4px;
- color:#788ba3;
- font-size:10px;
+    margin-top:4px;
+    color:#788ba3;
+    font-size:10px;
 }
 
 .music-button{
- width:43px;
- height:43px;
- flex-shrink:0;
- border:1px solid color-mix(in srgb,var(--primary) 25%,transparent);
- border-radius:50%;
- background:color-mix(in srgb,var(--primary) 13%,transparent);
- color:var(--secondary);
- font-size:16px;
- cursor:pointer;
+    width:43px;
+    height:43px;
+
+    flex-shrink:0;
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 25%,
+            transparent
+        );
+
+    border-radius:50%;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 13%,
+            transparent
+        );
+
+    color:var(--secondary);
+
+    font-size:16px;
+
+    cursor:pointer;
 }
+
+/* =========================
+   ANIMAÇÃO
+========================= */
 
 @keyframes heroIn{
- from{opacity:0;transform:translateY(-20px)}
- to{opacity:1;transform:translateY(0)}
+
+    from{
+        opacity:0;
+        transform:translateY(-20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
+/* =========================
+   MOBILE
+========================= */
+
 @media(max-width:500px){
- .container{padding-top:28px}
- .script-card{padding:17px;border-radius:20px}
- .card-title h2{font-size:15px}
- .tag{display:none}
- .music-player{bottom:8px}
+
+    .container{
+        padding-top:28px;
+    }
+
+    .script-card{
+        padding:17px;
+        border-radius:20px;
+    }
+
+    .card-title h2{
+        font-size:15px;
+    }
+
+    .tag{
+        display:none;
+    }
+
+    .music-player{
+        bottom:8px;
+    }
 }
 </style>
 </head>
@@ -403,9 +795,9 @@ code{
 <body>
 
 <div class="background">
- <div class="mist"></div>
- <div class="mist"></div>
- <div class="mist"></div>
+    <div class="mist"></div>
+    <div class="mist"></div>
+    <div class="mist"></div>
 </div>
 
 <div id="effects"></div>
@@ -414,173 +806,226 @@ code{
 
 <section class="hero">
 
- <div class="badge" id="badge">
-  🔵 ZOEWAR SCRIPTS
- </div>
+    <div class="badge" id="badge">
+        🔵 ZOEWAR SCRIPTS
+    </div>
 
- <h1>ZoeWar</h1>
+    <h1>ZoeWar</h1>
 
- <div class="subtitle" id="subtitle">
-  Scripts • Tools • ZoeWar
- </div>
+    <div class="subtitle" id="subtitle">
+        Scripts • Tools • ZoeWar
+    </div>
 
- <div class="description" id="description">
-  Bem-vindo ao painel oficial do ZoeWar.
- </div>
+    <div class="description" id="description">
+        Bem-vindo ao painel oficial do ZoeWar.
+    </div>
 
 </section>
 
 <div class="section-title">
- ✦ MEUS SCRIPTS
+    ✦ MEUS SCRIPTS
 </div>
 
 
-<!-- SCRIPT 1 -->
+<!-- 1 -->
 
 <div class="script-card">
 
- <div class="card-header">
+    <div class="card-header">
 
-  <div class="icon" id="icon1">🔵</div>
+        <div class="icon" id="icon1">🔵</div>
 
-  <div class="card-title">
-   <h2>meu sistema grátis</h2>
-   <p>meu sistema principal gratuito</p>
-  </div>
+        <div class="card-title">
 
-  <div class="tag">FREE</div>
+            <h2>meu sistema grátis</h2>
 
- </div>
+            <p>
+                meu sistema principal gratuito
+            </p>
 
- <div class="code-box">
+        </div>
 
-  <code id="script1">loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/System-V3.3/refs/heads/main/System-V3.3"))()</code>
+        <div class="tag">
+            FREE
+        </div>
 
-  <button class="copy" onclick="copyScript('script1',this)">
-   COPY
-  </button>
+    </div>
 
- </div>
+    <div class="code-box">
 
-</div>
+        <code id="script1">loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/System-V3.3/refs/heads/main/System-V3.3"))()</code>
 
+        <button
+            class="copy"
+            onclick="copyScript('script1',this)">
+            COPY
+        </button>
 
-<!-- SCRIPT 2 -->
-
-<div class="script-card">
-
- <div class="card-header">
-
-  <div class="icon" id="icon2">🔪</div>
-
-  <div class="card-title">
-   <h2>apenas remove a animação da arma</h2>
-   <p>ferramenta visual</p>
-  </div>
-
-  <div class="tag">TOOL</div>
-
- </div>
-
- <div class="code-box">
-
-  <code id="script2">loadstring(game:HttpGet("https://pastefy.app/w1eYk3eU/raw"))()</code>
-
-  <button class="copy" onclick="copyScript('script2',this)">
-   COPY
-  </button>
-
- </div>
+    </div>
 
 </div>
 
 
-<!-- SCRIPT 3 -->
+<!-- 2 -->
 
 <div class="script-card">
 
- <div class="card-header">
+    <div class="card-header">
 
-  <div class="icon" id="icon3">🎧</div>
+        <div class="icon" id="icon2">🔪</div>
 
-  <div class="card-title">
-   <h2>meu abafador/equalizador</h2>
-   <p>controle de áudio</p>
-  </div>
+        <div class="card-title">
 
-  <div class="tag">AUDIO</div>
+            <h2>
+                apenas remove a animação da arma
+            </h2>
 
- </div>
+            <p>
+                ferramenta visual
+            </p>
 
- <div class="code-box">
+        </div>
 
-  <code id="script3">loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/Abafador-By-Zoewar/refs/heads/main/Equalizador-Zoewar"))()</code>
+        <div class="tag">
+            TOOL
+        </div>
 
-  <button class="copy" onclick="copyScript('script3',this)">
-   COPY
-  </button>
+    </div>
 
- </div>
+    <div class="code-box">
+
+        <code id="script2">loadstring(game:HttpGet("https://pastefy.app/w1eYk3eU/raw"))()</code>
+
+        <button
+            class="copy"
+            onclick="copyScript('script2',this)">
+            COPY
+        </button>
+
+    </div>
 
 </div>
 
 
-<!-- SCRIPT 4 -->
+<!-- 3 -->
 
 <div class="script-card">
 
- <div class="card-header">
+    <div class="card-header">
 
-  <div class="icon" id="icon4">🛠️</div>
+        <div class="icon" id="icon3">🎧</div>
 
-  <div class="card-title">
-   <h2>meu painel grátis</h2>
-   <p>painel de ferramentas</p>
-  </div>
+        <div class="card-title">
 
-  <div class="tag">FREE</div>
+            <h2>
+                meu abafador/equalizador
+            </h2>
 
- </div>
+            <p>
+                controle de áudio
+            </p>
 
- <div class="code-box">
+        </div>
 
-  <code id="script4">loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/Painel-Cnp-ZoeWar/refs/heads/main/Painel-Scripts"))()</code>
+        <div class="tag">
+            AUDIO
+        </div>
 
-  <button class="copy" onclick="copyScript('script4',this)">
-   COPY
-  </button>
+    </div>
 
- </div>
+    <div class="code-box">
+
+        <code id="script3">loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/Abafador-By-Zoewar/refs/heads/main/Equalizador-Zoewar"))()</code>
+
+        <button
+            class="copy"
+            onclick="copyScript('script3',this)">
+            COPY
+        </button>
+
+    </div>
 
 </div>
 
 
-<!-- SCRIPT 5 -->
+<!-- 4 -->
 
 <div class="script-card">
 
- <div class="card-header">
+    <div class="card-header">
 
-  <div class="icon" id="icon5">🎭</div>
+        <div class="icon" id="icon4">🛠️</div>
 
-  <div class="card-title">
-   <h2>emotes tool</h2>
-   <p>ferramenta de emotes</p>
-  </div>
+        <div class="card-title">
 
-  <div class="tag">TOOL</div>
+            <h2>
+                meu painel grátis
+            </h2>
 
- </div>
+            <p>
+                painel de ferramentas
+            </p>
 
- <div class="code-box">
+        </div>
 
-  <code id="script5">loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/Emote-Tool/refs/heads/main/Emotes%20Tool"))()</code>
+        <div class="tag">
+            FREE
+        </div>
 
-  <button class="copy" onclick="copyScript('script5',this)">
-   COPY
-  </button>
+    </div>
 
- </div>
+    <div class="code-box">
+
+        <code id="script4">loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/Painel-Cnp-ZoeWar/refs/heads/main/Painel-Scripts"))()</code>
+
+        <button
+            class="copy"
+            onclick="copyScript('script4',this)">
+            COPY
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="script-card">
+
+    <div class="card-header">
+
+        <div class="icon" id="icon5">🎭</div>
+
+        <div class="card-title">
+
+            <h2>
+                emotes tool
+            </h2>
+
+            <p>
+                ferramenta de emotes
+            </p>
+
+        </div>
+
+        <div class="tag">
+            TOOL
+        </div>
+
+    </div>
+
+    <div class="code-box">
+
+        <code id="script5">loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoeWarOnTop/Emote-Tool/refs/heads/main/Emotes%20Tool"))()</code>
+
+        <button
+            class="copy"
+            onclick="copyScript('script5',this)">
+            COPY
+        </button>
+
+    </div>
 
 </div>
 
@@ -591,577 +1036,970 @@ code{
 
 <div class="music-player">
 
- <img
-  class="album"
-  src="capa.jpg"
-  alt="Capa da música">
+    <img
+        class="album"
+        src="capa.jpg"
+        alt="Capa da música">
 
- <div class="music-info">
+    <div class="music-info">
 
-  <div class="music-title">
-   Somebody's Watching Me
-  </div>
+        <div class="music-title">
+            Somebody's Watching Me
+        </div>
 
-  <div class="music-artist">
-   Rockwell
-  </div>
+        <div class="music-artist">
+            Rockwell
+        </div>
 
- </div>
+    </div>
 
- <button
-  class="music-button"
-  id="musicButton"
-  onclick="toggleMusic()">
-  ▶
- </button>
+    <button
+        class="music-button"
+        id="musicButton"
+        onclick="toggleMusic()">
+        ▶
+    </button>
 
 </div>
 
 <audio id="music" loop>
- <source src="music.mp3" type="audio/mpeg">
+    <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 
 <script>
 
-/* ==========================================
-   SISTEMA AUTOMÁTICO DE TEMAS
-   Brasil / Hemisfério Sul
-========================================== */
+/* =====================================================
+   ZOEWAR — SISTEMA AUTOMÁTICO DE EVENTOS
+===================================================== */
 
-const root=document.documentElement;
-const effects=document.getElementById("effects");
+const root = document.documentElement;
 
-const badge=document.getElementById("badge");
-const subtitle=document.getElementById("subtitle");
-const description=document.getElementById("description");
+const effects =
+    document.getElementById("effects");
 
-const icons=[
- document.getElementById("icon1"),
- document.getElementById("icon2"),
- document.getElementById("icon3"),
- document.getElementById("icon4"),
- document.getElementById("icon5")
+const badge =
+    document.getElementById("badge");
+
+const subtitle =
+    document.getElementById("subtitle");
+
+const description =
+    document.getElementById("description");
+
+const icons = [
+    document.getElementById("icon1"),
+    document.getElementById("icon2"),
+    document.getElementById("icon3"),
+    document.getElementById("icon4"),
+    document.getElementById("icon5")
 ];
 
-function theme(primary,secondary,accent,bg){
+let currentTheme = "";
 
- root.style.setProperty("--primary",primary);
- root.style.setProperty("--secondary",secondary);
- root.style.setProperty("--accent",accent);
- root.style.setProperty("--bg",bg);
 
- document.body.style.background=bg;
+/* =====================================================
+   CORES
+===================================================== */
+
+function setColors(
+    primary,
+    secondary,
+    accent,
+    bg,
+    card
+){
+
+    root.style.setProperty(
+        "--primary",
+        primary
+    );
+
+    root.style.setProperty(
+        "--secondary",
+        secondary
+    );
+
+    root.style.setProperty(
+        "--accent",
+        accent
+    );
+
+    root.style.setProperty(
+        "--bg",
+        bg
+    );
+
+    root.style.setProperty(
+        "--card",
+        card
+    );
 }
+
+
+/* =====================================================
+   LIMPAR EFEITOS
+===================================================== */
 
 function clearEffects(){
- effects.innerHTML="";
-}
 
-function falling(symbol,count,min,max,dmin,dmax){
+    effects.innerHTML = "";
 
- clearEffects();
-
- for(let i=0;i<count;i++){
-
-  const el=document.createElement("div");
-
-  el.className="falling";
-  el.innerText=symbol;
-
-  el.style.left=Math.random()*100+"%";
-
-  el.style.fontSize=
-   (min+Math.random()*(max-min))+"px";
-
-  el.style.animationDuration=
-   (dmin+Math.random()*(dmax-dmin))+"s";
-
-  el.style.animationDelay=
-   (-Math.random()*15)+"s";
-
-  effects.appendChild(el);
- }
 }
 
 
-/* ==========================================
+/* =====================================================
+   EFEITOS CAINDO
+===================================================== */
+
+function falling(
+    symbol,
+    amount,
+    minSize,
+    maxSize,
+    minDuration,
+    maxDuration
+){
+
+    clearEffects();
+
+    for(let i = 0; i < amount; i++){
+
+        const element =
+            document.createElement("div");
+
+        element.className =
+            "falling";
+
+        element.innerText =
+            symbol;
+
+        element.style.left =
+            Math.random() * 100 + "%";
+
+        element.style.fontSize =
+            (
+                minSize +
+                Math.random() *
+                (maxSize - minSize)
+            ) + "px";
+
+        element.style.animationDuration =
+            (
+                minDuration +
+                Math.random() *
+                (maxDuration - minDuration)
+            ) + "s";
+
+        element.style.animationDelay =
+            (-Math.random() * 15) + "s";
+
+        effects.appendChild(element);
+    }
+}
+
+
+/* =====================================================
    FOGOS DE ARTIFÍCIO
-========================================== */
+===================================================== */
 
-let fireworksTimer=null;
+let fireworksInterval = null;
 
-function fireworks(){
+function startFireworks(){
 
- clearEffects();
+    clearEffects();
 
- if(fireworksTimer)
-  clearInterval(fireworksTimer);
+    if(fireworksInterval){
 
- function create(){
+        clearInterval(
+            fireworksInterval
+        );
 
-  const x=10+Math.random()*80;
-  const y=12+Math.random()*50;
+        fireworksInterval = null;
+    }
 
-  for(let i=0;i<28;i++){
 
-   const spark=document.createElement("div");
+    function createFirework(){
 
-   spark.className="spark";
+        const centerX =
+            10 + Math.random() * 80;
 
-   const angle=(Math.PI*2/28)*i;
-   const distance=45+Math.random()*100;
+        const centerY =
+            12 + Math.random() * 48;
 
-   spark.style.left=x+"%";
-   spark.style.top=y+"%";
 
-   spark.style.setProperty(
-    "--x",
-    Math.cos(angle)*distance+"px"
-   );
+        for(let i = 0; i < 30; i++){
 
-   spark.style.setProperty(
-    "--y",
-    Math.sin(angle)*distance+"px"
-   );
+            const spark =
+                document.createElement("div");
 
-   effects.appendChild(spark);
+            spark.className =
+                "spark";
 
-   setTimeout(()=>{
-    spark.remove();
-   },1000);
-  }
- }
+            const angle =
+                (Math.PI * 2 / 30) * i;
 
- create();
- fireworksTimer=setInterval(create,900);
+            const distance =
+                45 + Math.random() * 100;
+
+            spark.style.left =
+                centerX + "%";
+
+            spark.style.top =
+                centerY + "%";
+
+            spark.style.setProperty(
+                "--x",
+                Math.cos(angle) *
+                distance +
+                "px"
+            );
+
+            spark.style.setProperty(
+                "--y",
+                Math.sin(angle) *
+                distance +
+                "px"
+            );
+
+            effects.appendChild(spark);
+
+            setTimeout(() => {
+
+                spark.remove();
+
+            },950);
+        }
+    }
+
+
+    createFirework();
+
+    fireworksInterval =
+        setInterval(
+            createFirework,
+            1100
+        );
 }
 
 
-/* ==========================================
+/* =====================================================
    PÁSCOA
-========================================== */
+===================================================== */
 
 function getEaster(year){
 
- const a=year%19;
- const b=Math.floor(year/100);
- const c=year%100;
- const d=Math.floor(b/4);
- const e=b%4;
- const f=Math.floor((b+8)/25);
- const g=Math.floor((b-f+1)/3);
- const h=(19*a+b-d-g+15)%30;
- const i=Math.floor(c/4);
- const k=c%4;
- const l=(32+2*e+2*i-h-k)%7;
- const m=Math.floor((a+11*h+22*l)/451);
+    const a = year % 19;
 
- const month=Math.floor((h+l-7*m+114)/31);
- const day=((h+l-7*m+114)%31)+1;
+    const b =
+        Math.floor(year / 100);
 
- return new Date(year,month-1,day);
+    const c =
+        year % 100;
+
+    const d =
+        Math.floor(b / 4);
+
+    const e =
+        b % 4;
+
+    const f =
+        Math.floor((b + 8) / 25);
+
+    const g =
+        Math.floor((b - f + 1) / 3);
+
+    const h =
+        (
+            19 * a +
+            b -
+            d -
+            g +
+            15
+        ) % 30;
+
+    const i =
+        Math.floor(c / 4);
+
+    const k =
+        c % 4;
+
+    const l =
+        (
+            32 +
+            2 * e +
+            2 * i -
+            h -
+            k
+        ) % 7;
+
+    const m =
+        Math.floor(
+            (a + 11 * h + 22 * l) / 451
+        );
+
+    const month =
+        Math.floor(
+            (h + l - 7 * m + 114) / 31
+        );
+
+    const day =
+        (
+            (h + l - 7 * m + 114) %
+            31
+        ) + 1;
+
+    return new Date(
+        year,
+        month - 1,
+        day
+    );
 }
 
 
-/* ==========================================
-   TEMA
-========================================== */
+/* =====================================================
+   APLICAR TEMA
+===================================================== */
 
 function applyTheme(){
 
- const now=new Date();
- const year=now.getFullYear();
- const month=now.getMonth()+1;
- const day=now.getDate();
-
- const easter=getEaster(year);
-
- /*
-  ANO NOVO
-  1–7 JANEIRO
-  26–31 DEZEMBRO
- */
-
- if(
-  (month===1 && day<=7) ||
-  (month===12 && day>=26)
- ){
-
-  theme(
-   "#d6a62a",
-   "#ffe39a",
-   "#ffffff",
-   "#050505"
-  );
-
-  badge.innerText="🎆 NEW YEAR EDITION 🎆";
-  subtitle.innerText="Scripts • Tools • Happy New Year";
-  description.innerText=
-   "Comece o novo ano com o ZoeWar.";
-
-  icons[0].innerText="🎆";
-  icons[1].innerText="✨";
-  icons[2].innerText="🎧";
-  icons[3].innerText="🥂";
-  icons[4].innerText="🎉";
-
-  fireworks();
-  return;
- }
-
-
- /*
-  NATAL
-  1–25 DEZEMBRO
- */
-
- if(month===12){
-
-  theme(
-   "#3b91ff",
-   "#b9ddff",
-   "#ffffff",
-   "#020b1c"
-  );
-
-  badge.innerText="🎄 CHRISTMAS EDITION 🎄";
-  subtitle.innerText="Scripts • Tools • Christmas";
-  description.innerText=
-   "O Natal chegou ao ZoeWar.";
-
-  icons[0].innerText="🎄";
-  icons[1].innerText="🎁";
-  icons[2].innerText="🎧";
-  icons[3].innerText="🔔";
-  icons[4].innerText="⛄";
-
-  falling("❄️",65,10,21,6,13);
-  return;
- }
-
-
- /*
-  HALLOWEEN
-  OUTUBRO INTEIRO
- */
-
- if(month===10){
-
-  theme(
-   "#ff6500",
-   "#ffae70",
-   "#ffd08a",
-   "#050201"
-  );
-
-  badge.innerText="🎃 HALLOWEEN EDITION 🎃";
-  subtitle.innerText="Scripts • Tools • Halloween";
-  description.innerText=
-   "Uma edição especial e assustadora do ZoeWar.";
-
-  icons[0].innerText="🎃";
-  icons[1].innerText="🔪";
-  icons[2].innerText="🎧";
-  icons[3].innerText="🕸️";
-  icons[4].innerText="💀";
-
-  falling("🕸️",28,12,24,7,14);
-  return;
- }
-
-
- /*
-  DIA DOS NAMORADOS
-  BRASIL — 12 DE JUNHO
- */
-
- if(month===6 && day===12){
-
-  theme(
-   "#e63963",
-   "#ff91aa",
-   "#ffd1dd",
-   "#16040a"
-  );
-
-  badge.innerText="❤️ VALENTINE EDITION ❤️";
-  subtitle.innerText="Scripts • Tools • Love";
-  description.innerText=
-   "Uma edição especial do ZoeWar.";
-
-  icons[0].innerText="❤️";
-  icons[1].innerText="💗";
-  icons[2].innerText="🎧";
-  icons[3].innerText="💞";
-  icons[4].innerText="💖";
-
-  falling("❤️",40,12,25,6,12);
-  return;
- }
-
-
- /*
-  PÁSCOA
-  SEMANA DA PÁSCOA
- */
-
- const easterStart=new Date(easter);
- easterStart.setDate(easter.getDate()-7);
-
- const easterEnd=new Date(easter);
- easterEnd.setDate(easter.getDate()+1);
-
- if(now>=easterStart && now<=easterEnd){
-
-  theme(
-   "#9b72ff",
-   "#d2bfff",
-   "#f5edff",
-   "#0d071c"
-  );
-
-  badge.innerText="🐰 EASTER EDITION 🐰";
-  subtitle.innerText="Scripts • Tools • Easter";
-  description.innerText=
-   "Uma edição especial de Páscoa.";
-
-  icons[0].innerText="🐰";
-  icons[1].innerText="🥚";
-  icons[2].innerText="🌷";
-  icons[3].innerText="🐣";
-  icons[4].innerText="🌸";
-
-  falling("🌸",35,10,20,6,12);
-  return;
- }
-
-
- /*
-  PRIMAVERA — BRASIL
-  22 SET → 20 DEZ
- */
-
- if(
-  (month===9 && day>=22) ||
-  month===11 ||
-  (month===12 && day<=20)
- ){
-
-  theme(
-   "#45b97c",
-   "#a5e6bd",
-   "#e1ffe9",
-   "#03130b"
-  );
-
-  badge.innerText="🌸 SPRING EDITION 🌸";
-  subtitle.innerText="Scripts • Tools • Spring";
-  description.innerText=
-   "Uma edição florida e leve do ZoeWar.";
-
-  icons[0].innerText="🌸";
-  icons[1].innerText="🌿";
-  icons[2].innerText="🎧";
-  icons[3].innerText="🌷";
-  icons[4].innerText="🦋";
-
-  falling("🌸",32,10,21,6,12);
-  return;
- }
-
-
- /*
-  VERÃO — BRASIL
-  21 DEZ → 20 MAR
- */
-
- if(
-  (month===3 && day<=20) ||
-  month===1 ||
-  month===2 ||
-  (month===12 && day>=21)
- ){
-
-  theme(
-   "#e5a923",
-   "#ffe27a",
-   "#fff4b0",
-   "#100b01"
-  );
-
-  badge.innerText="☀️ SUMMER EDITION ☀️";
-  subtitle.innerText="Scripts • Tools • Summer";
-  description.innerText=
-   "Uma edição ensolarada do ZoeWar.";
-
-  icons[0].innerText="☀️";
-  icons[1].innerText="🌊";
-  icons[2].innerText="🎧";
-  icons[3].innerText="🏖️";
-  icons[4].innerText="🌴";
-
-  falling("✦",28,8,18,7,13);
-  return;
- }
-
-
- /*
-  INVERNO — BRASIL
-  21 JUN → 21 SET
- */
-
- if(
-  (month===6 && day>=21) ||
-  month===7 ||
-  month===8 ||
-  (month===9 && day<=21)
- ){
-
-  theme(
-   "#4b9fff",
-   "#a9d8ff",
-   "#e6f6ff",
-   "#020817"
-  );
-
-  badge.innerText="❄️ WINTER EDITION ❄️";
-  subtitle.innerText="Scripts • Tools • Winter";
-  description.innerText=
-   "Uma edição fria e elegante do ZoeWar.";
-
-  icons[0].innerText="❄️";
-  icons[1].innerText="🧊";
-  icons[2].innerText="🎧";
-  icons[3].innerText="☃️";
-  icons[4].innerText="🌨️";
-
-  falling("❄️",50,8,18,6,13);
-  return;
- }
-
-
- /*
-  TEMA PADRÃO
-  DIAS FORA DOS EVENTOS
- */
-
- theme(
-  "#3b82f6",
-  "#78baff",
-  "#b9ddff",
-  "#020817"
- );
-
- badge.innerText="🔵 ZOEWAR SCRIPTS";
- subtitle.innerText="Scripts • Tools • ZoeWar";
- description.innerText=
-  "Bem-vindo ao painel oficial do ZoeWar.";
-
- icons[0].innerText="🔵";
- icons[1].innerText="🔪";
- icons[2].innerText="🎧";
- icons[3].innerText="🛠️";
- icons[4].innerText="🎭";
-
- falling("✦",22,6,12,8,15);
+    const now = new Date();
+
+    const year =
+        now.getFullYear();
+
+    const month =
+        now.getMonth() + 1;
+
+    const day =
+        now.getDate();
+
+
+    /* ---------------------------------------------
+       DATA DA PÁSCOA
+    --------------------------------------------- */
+
+    const easter =
+        getEaster(year);
+
+    const easterStart =
+        new Date(easter);
+
+    easterStart.setDate(
+        easter.getDate() - 7
+    );
+
+    const easterEnd =
+        new Date(easter);
+
+    easterEnd.setDate(
+        easter.getDate() + 1
+    );
+
+
+    /* =================================================
+       🎆 ANO NOVO
+       25/12 00:00 → 07/01 23:59
+    ================================================= */
+
+    if(
+        (month === 12 && day >= 25) ||
+        (month === 1 && day <= 7)
+    ){
+
+        if(currentTheme === "newyear")
+            return;
+
+        currentTheme = "newyear";
+
+        setColors(
+            "#d6a62a",
+            "#ffe39a",
+            "#ffffff",
+            "#050505",
+            "#100f09"
+        );
+
+        badge.innerText =
+            "🎆 NEW YEAR EDITION 🎆";
+
+        subtitle.innerText =
+            "Scripts • Tools • Happy New Year";
+
+        description.innerText =
+            "Comece o novo ano com o ZoeWar.";
+
+        icons[0].innerText = "🎆";
+        icons[1].innerText = "✨";
+        icons[2].innerText = "🎧";
+        icons[3].innerText = "🎉";
+        icons[4].innerText = "🥳";
+
+        startFireworks();
+
+        return;
+    }
+
+
+    /* =================================================
+       🎄 NATAL
+       01/12 00:00 → 24/12 23:59
+    ================================================= */
+
+    if(
+        month === 12 &&
+        day >= 1 &&
+        day <= 24
+    ){
+
+        if(currentTheme === "christmas")
+            return;
+
+        currentTheme = "christmas";
+
+        setColors(
+            "#3185e8",
+            "#b8dcff",
+            "#ffffff",
+            "#020b1c",
+            "#061426"
+        );
+
+        badge.innerText =
+            "🎄 CHRISTMAS EDITION 🎄";
+
+        subtitle.innerText =
+            "Scripts • Tools • Christmas";
+
+        description.innerText =
+            "O Natal chegou ao ZoeWar.";
+
+        icons[0].innerText = "🎄";
+        icons[1].innerText = "🎁";
+        icons[2].innerText = "🎧";
+        icons[3].innerText = "🔔";
+        icons[4].innerText = "⛄";
+
+        falling(
+            "❄️",
+            70,
+            9,
+            20,
+            6,
+            13
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       🎃 HALLOWEEN
+       30/09 00:00 → 31/10 23:59
+    ================================================= */
+
+    if(
+        (month === 9 && day >= 30) ||
+        month === 10
+    ){
+
+        if(currentTheme === "halloween")
+            return;
+
+        currentTheme = "halloween";
+
+        setColors(
+            "#ff6500",
+            "#ffae70",
+            "#ffd08a",
+            "#050201",
+            "#17100b"
+        );
+
+        badge.innerText =
+            "🎃 HALLOWEEN EDITION 🎃";
+
+        subtitle.innerText =
+            "Scripts • Tools • Halloween";
+
+        description.innerText =
+            "Uma edição especial e assustadora do ZoeWar.";
+
+        icons[0].innerText = "🎃";
+        icons[1].innerText = "🔪";
+        icons[2].innerText = "🎧";
+        icons[3].innerText = "🕸️";
+        icons[4].innerText = "💀";
+
+        falling(
+            "🕸️",
+            35,
+            10,
+            23,
+            7,
+            14
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       ❤️ DIA DOS NAMORADOS
+       12/06
+    ================================================= */
+
+    if(
+        month === 6 &&
+        day === 12
+    ){
+
+        if(currentTheme === "valentine")
+            return;
+
+        currentTheme = "valentine";
+
+        setColors(
+            "#e63963",
+            "#ff91aa",
+            "#ffd1dd",
+            "#16040a",
+            "#1c0810"
+        );
+
+        badge.innerText =
+            "❤️ VALENTINE EDITION ❤️";
+
+        subtitle.innerText =
+            "Scripts • Tools • Special Edition";
+
+        description.innerText =
+            "Uma edição especial do ZoeWar.";
+
+        icons[0].innerText = "❤️";
+        icons[1].innerText = "💗";
+        icons[2].innerText = "🎧";
+        icons[3].innerText = "💞";
+        icons[4].innerText = "💖";
+
+        falling(
+            "❤️",
+            38,
+            11,
+            23,
+            6,
+            12
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       🐰 PÁSCOA
+       7 dias antes → 1 dia depois
+    ================================================= */
+
+    if(
+        now >= easterStart &&
+        now <= easterEnd
+    ){
+
+        if(currentTheme === "easter")
+            return;
+
+        currentTheme = "easter";
+
+        setColors(
+            "#9b72ff",
+            "#d2bfff",
+            "#f5edff",
+            "#0d071c",
+            "#150d27"
+        );
+
+        badge.innerText =
+            "🐰 EASTER EDITION 🐰";
+
+        subtitle.innerText =
+            "Scripts • Tools • Easter";
+
+        description.innerText =
+            "Uma edição especial de Páscoa.";
+
+        icons[0].innerText = "🐰";
+        icons[1].innerText = "🥚";
+        icons[2].innerText = "🌷";
+        icons[3].innerText = "🐣";
+        icons[4].innerText = "🌸";
+
+        falling(
+            "🌸",
+            38,
+            9,
+            20,
+            6,
+            12
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       ☀️ VERÃO
+       21/12 → 20/03
+    ================================================= */
+
+    if(
+        (month === 12 && day >= 21) ||
+        month === 1 ||
+        month === 2 ||
+        (month === 3 && day <= 20)
+    ){
+
+        if(currentTheme === "summer")
+            return;
+
+        currentTheme = "summer";
+
+        setColors(
+            "#e5a923",
+            "#ffe27a",
+            "#fff4b0",
+            "#100b01",
+            "#181204"
+        );
+
+        badge.innerText =
+            "☀️ SUMMER EDITION ☀️";
+
+        subtitle.innerText =
+            "Scripts • Tools • Summer";
+
+        description.innerText =
+            "Uma edição ensolarada do ZoeWar.";
+
+        icons[0].innerText = "☀️";
+        icons[1].innerText = "🌊";
+        icons[2].innerText = "🎧";
+        icons[3].innerText = "🏖️";
+        icons[4].innerText = "🌴";
+
+        falling(
+            "✦",
+            28,
+            8,
+            18,
+            7,
+            13
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       🌸 PRIMAVERA
+       22/09 → 20/12
+       EXCETO HALLOWEEN/NATAL
+    ================================================= */
+
+    if(
+        (month === 9 && day >= 22) ||
+        month === 11 ||
+        (month === 12 && day <= 20)
+    ){
+
+        if(currentTheme === "spring")
+            return;
+
+        currentTheme = "spring";
+
+        setColors(
+            "#45b97c",
+            "#a5e6bd",
+            "#e1ffe9",
+            "#03130b",
+            "#071b11"
+        );
+
+        badge.innerText =
+            "🌸 SPRING EDITION 🌸";
+
+        subtitle.innerText =
+            "Scripts • Tools • Spring";
+
+        description.innerText =
+            "Uma edição florida e leve do ZoeWar.";
+
+        icons[0].innerText = "🌸";
+        icons[1].innerText = "🌿";
+        icons[2].innerText = "🎧";
+        icons[3].innerText = "🌷";
+        icons[4].innerText = "🦋";
+
+        falling(
+            "🌸",
+            34,
+            9,
+            20,
+            6,
+            12
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       ❄️ INVERNO
+       21/06 → 21/09
+    ================================================= */
+
+    if(
+        (month === 6 && day >= 21) ||
+        month === 7 ||
+        month === 8 ||
+        (month === 9 && day <= 21)
+    ){
+
+        if(currentTheme === "winter")
+            return;
+
+        currentTheme = "winter";
+
+        setColors(
+            "#4b9fff",
+            "#a9d8ff",
+            "#e6f6ff",
+            "#020817",
+            "#061426"
+        );
+
+        badge.innerText =
+            "❄️ WINTER EDITION ❄️";
+
+        subtitle.innerText =
+            "Scripts • Tools • Winter";
+
+        description.innerText =
+            "Uma edição fria e elegante do ZoeWar.";
+
+        icons[0].innerText = "❄️";
+        icons[1].innerText = "🧊";
+        icons[2].innerText = "🎧";
+        icons[3].innerText = "☃️";
+        icons[4].innerText = "🌨️";
+
+        falling(
+            "❄️",
+            45,
+            8,
+            18,
+            6,
+            13
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       🔵 TEMA PADRÃO
+    ================================================= */
+
+    if(currentTheme === "default")
+        return;
+
+    currentTheme = "default";
+
+    setColors(
+        "#3b82f6",
+        "#78baff",
+        "#b9ddff",
+        "#020817",
+        "#071426"
+    );
+
+    badge.innerText =
+        "🔵 ZOEWAR SCRIPTS";
+
+    subtitle.innerText =
+        "Scripts • Tools • ZoeWar";
+
+    description.innerText =
+        "Bem-vindo ao painel oficial do ZoeWar.";
+
+    icons[0].innerText = "🔵";
+    icons[1].innerText = "🔪";
+    icons[2].innerText = "🎧";
+    icons[3].innerText = "🛠️";
+    icons[4].innerText = "🎭";
+
+    falling(
+        "✦",
+        22,
+        6,
+        12,
+        8,
+        15
+    );
 }
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
 
 applyTheme();
 
 
-/* ==========================================
-   COPIAR
-========================================== */
+/*
+   Verifica a data a cada minuto.
+
+   Isso permite que, por exemplo:
+
+   29/09 23:59 → tema azul
+   30/09 00:00 → Halloween
+
+   sem precisar alterar o HTML.
+*/
+
+setInterval(
+    applyTheme,
+    60000
+);
+
+
+/* =====================================================
+   COPY SOUND
+===================================================== */
 
 function copySound(){
 
- const AudioContext=
-  window.AudioContext||
-  window.webkitAudioContext;
+    const AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
 
- if(!AudioContext)return;
+    if(!AudioContext)
+        return;
 
- const context=new AudioContext();
+    const context =
+        new AudioContext();
 
- const oscillator=context.createOscillator();
- const gain=context.createGain();
+    const oscillator =
+        context.createOscillator();
 
- oscillator.type="sine";
+    const gain =
+        context.createGain();
 
- oscillator.frequency.setValueAtTime(
-  720,
-  context.currentTime
- );
+    oscillator.type =
+        "sine";
 
- oscillator.frequency.exponentialRampToValueAtTime(
-  980,
-  context.currentTime+.08
- );
+    oscillator.frequency.setValueAtTime(
+        720,
+        context.currentTime
+    );
 
- gain.gain.setValueAtTime(
-  .08,
-  context.currentTime
- );
+    oscillator.frequency.exponentialRampToValueAtTime(
+        980,
+        context.currentTime + .08
+    );
 
- gain.gain.exponentialRampToValueAtTime(
-  .001,
-  context.currentTime+.14
- );
+    gain.gain.setValueAtTime(
+        .08,
+        context.currentTime
+    );
 
- oscillator.connect(gain);
- gain.connect(context.destination);
+    gain.gain.exponentialRampToValueAtTime(
+        .001,
+        context.currentTime + .14
+    );
 
- oscillator.start();
- oscillator.stop(context.currentTime+.14);
+    oscillator.connect(gain);
+
+    gain.connect(
+        context.destination
+    );
+
+    oscillator.start();
+
+    oscillator.stop(
+        context.currentTime + .14
+    );
 }
+
+
+/* =====================================================
+   COPY
+===================================================== */
 
 function copyScript(id,button){
 
- const text=
-  document.getElementById(id).innerText.trim();
+    const text =
+        document
+        .getElementById(id)
+        .innerText
+        .trim();
 
- navigator.clipboard.writeText(text).then(()=>{
+    navigator.clipboard
+        .writeText(text)
+        .then(() => {
 
-  copySound();
+            copySound();
 
-  button.innerText="COPIED ✓";
-  button.classList.add("copied");
+            button.innerText =
+                "COPIED ✓";
 
-  setTimeout(()=>{
+            button.classList.add(
+                "copied"
+            );
 
-   button.innerText="COPY";
-   button.classList.remove("copied");
+            setTimeout(() => {
 
-  },1400);
+                button.innerText =
+                    "COPY";
 
- });
+                button.classList.remove(
+                    "copied"
+                );
+
+            },1400);
+
+        });
 }
 
 
-/* ==========================================
+/* =====================================================
    PLAYER
-========================================== */
+===================================================== */
 
-const music=document.getElementById("music");
-const musicButton=document.getElementById("musicButton");
+const music =
+    document.getElementById("music");
+
+const musicButton =
+    document.getElementById("musicButton");
 
 function toggleMusic(){
 
- if(music.paused){
+    if(music.paused){
 
-  music.play();
-  musicButton.innerText="❚❚";
+        music.play();
 
- }else{
+        musicButton.innerText =
+            "❚❚";
 
-  music.pause();
-  musicButton.innerText="▶";
+    }else{
 
- }
+        music.pause();
+
+        musicButton.innerText =
+            "▶";
+    }
 }
 
 </script>
 
 </body>
-</html>
+ </html>
